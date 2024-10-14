@@ -16,43 +16,33 @@ Student ID: 20027521
 1.5.	Search for the value in the dictionary asking user for input.
 
 """
-
 # Define functions for dictionary operations
 def add_dict(category_dict, name, date):
-        category_dict[name] = date
-#        print(f"Added: {name} with date: {date}.") #adds the entry to the dictionary
-        return category_dict
+    category_dict[name] = date
+    print(f"Added: {name} with date: {date}.")
+    return category_dict
 
 def delete_dict(category_dict, name):
     if name in category_dict:
         del category_dict[name]
-#        print(f"Deleted: {name}.") #if the name found in the dictionary, then can delete
-        return category_dict
+        print(f"Deleted: {name}.")
     else:
-        print(f"{name} not found in the dictionary.") # if not, action can't be done
-        return category_dict
+        print(f"{name} not found in the dictionary.")
+    return category_dict
 
-def sort_dict(category_dict): #no input value needed
-    sorted_items = sorted(category_dict.items()) #sort the items in the dict
-#    for name, date in sorted_items:
-#        print(f"{name}: {date}") #print name and date after being sorted
+def sort_dict(category_dict, descending=False):
+    sorted_items = sorted(category_dict.items(), key=lambda x: x[0], reverse=descending)
     return sorted_items
 
-def search_dict(category_dict, name): #input name to search
+def search_dict(category_dict, name):
     if name in category_dict:
-        print(name, " is found")
-        return category_dict
-        
-
-#        print(f"{name}: {category_dict[name]}") #if inputted value is found on the list, print the associated info
+        print(f"{name} is found: {category_dict[name]}")
     else:
-        print(name, "not found in the dictionary.") #else, tell user entered value is not in the dictionary
-        return category_dict
-    
+        print(f"{name} not found in the dictionary.")
+    return category_dict
 
-
-# Create empty dictionaries
-actor_dict = {    
+# Create dictionaries
+actor_dict = {
     "Leonardo DiCaprio": 1974,
     "Meryl Streep": 1949,
     "Tom Hanks": 1956,
@@ -64,8 +54,11 @@ actor_dict = {
     "Brad Pitt": 1963,
     "Halle Berry": 1966,
     "Robert Downey Jr.": 1965,
-    "Viola Davis": 1965}
-movie_dict = {"The Shawshank Redemption": 1994,
+    "Viola Davis": 1965
+}
+
+movie_dict = {
+    "The Shawshank Redemption": 1994,
     "The Godfather": 1972,
     "Pulp Fiction": 1994,
     "Forrest Gump": 1994,
@@ -76,7 +69,9 @@ movie_dict = {"The Shawshank Redemption": 1994,
     "Interstellar": 2014,
     "Gladiator": 2000,
     "Titanic": 1997,
-    "Avatar": 2009}
+    "Avatar": 2009
+}
+
 game_dict = {
     "The Legend of Zelda: Breath of the Wild": 2017,
     "The Witcher 3: Wild Hunt": 2015,
@@ -89,50 +84,52 @@ game_dict = {
     "Hollow Knight": 2017,
     "DOOM (2016)": 2016,
     "Celeste": 2018,
-    "Final Fantasy VII": 1997}
+    "Final Fantasy VII": 1997
+}
 
 # Main loop
-while True: 
-    #prompt for input for category type
-    category_type = input("Please enter category type e.g., A(ctor), M(ovie), G(ames), E(nd) => ").strip().upper()
-    
-    if category_type == 'E':
-        print("Thank you. You are exiting the program.") #exiting message
-        break #to exit the loop
-    else:
+def main():
+    while True:
+        category_type = input("Please enter category type e.g., A(ctor), M(ovie), G(ames), E(nd) => ").strip().upper()
+        
+        if category_type == 'E':
+            print("Thank you. You are exiting the program.")
+            break
+        
         if category_type == 'A':
-            dict_type = actor_dict # input 'A' will assign to actor_dict
+            dict_type = actor_dict
         elif category_type == 'M':
-            dict_type = movie_dict  # input 'M' will assign to movie_dict
+            dict_type = movie_dict
         elif category_type == 'G':
-            dict_type = game_dict  # input 'G' will assign to game_dict
+            dict_type = game_dict
         else:
-            print("Unknown input:", category_type) #otherwise, display invalid message
-            continue #prompt input again
+            print("Unknown input:", category_type)
+            continue
             
-      #nested looop      
         while True:
-            #after choosing category type, choose instructions that needs to be done (function defined at the top)
             instruction_type = input("Please enter instruction type e.g., A(dd), D(elete), S(orting), sea(R)ch, P(revious menu) => ").strip().upper()
             if instruction_type == 'P':
-                break #exit this loop
+                break
             elif instruction_type == 'A':
-                name = input("Enter a name: ") #first entry needed is the name
-                date = int(input("Enter the date (yyyy): ")) #second entry needed is the date
-                dict_type = add_dict(dict_type, name, date) #function adds name and date to the dictionary
+                name = input("Enter a name: ")
+                date = int(input("Enter the year (yyyy): "))
+                dict_type = add_dict(dict_type, name, date)
             elif instruction_type == 'D':
-                name = input("Enter a name to delete: ") #enter the name that wants to be deleted
-                dict_type = delete_dict(dict_type, name) #run the functionusing the input (delete if entry is found, error message if not found)
+                name = input("Enter a name to delete: ")
+                dict_type = delete_dict(dict_type, name)
             elif instruction_type == 'S':
-                dict_type = sort_dict(dict_type)  # Sort in dictionary in order
+                order = input("Sort in ascending or descending order? (A/D): ").strip().upper()
+                descending = order == 'D'
+                sorted_items = sort_dict(dict_type, descending)
+                for name, year in sorted_items:
+                    print(f"{name}: {year}")
             elif instruction_type == 'R':
-                name = input("Enter a name to search: ") #enter the name that wants to be searched
-                dict_type = search_dict(dict_type, name) #using the input, run the search function
+                name = input("Enter a name to search: ")
+                dict_type = search_dict(dict_type, name)
             else:
-                print("Invalid instruction. Please try again.") #other than stated in the instruction, display invalid message
+                print("Invalid instruction. Please try again.")
             
-            
-            print(dict_type)
-            # Display the current state of the dictionary after each instruction
-#            display_dict(dict_type) #display the current dictionary after instruction being done
+            print()  # For better readability between operations
 
+if __name__ == '__main__':
+    main()
