@@ -23,15 +23,11 @@ Use the following scenario:
 
 # coding
 
-# function definitions (3)
-
-def add_value(list_name,value) :
-
+def add_value(list_name, value):
     list_name.append(value)
-
     return list_name
 
-def sort_value(list_name) :
+def sort_value(list_name):
     list_name.sort()
     return list_name
 
@@ -39,16 +35,15 @@ def delete_value(list_name, value):
     if value in list_name:
         list_name.remove(value)
     else:
-        print(value, " is not FOUND") 
+        print(value, "is not FOUND") 
     return list_name 
 
 def search_value(list_name, value):
     if value in list_name:
         print(value, "is found in the list")
-        return list_name
     else:
         print(value, "is not found in the list")
-        return list_name
+    return list_name
         
 movie_stars = [    
     "Leonardo DiCaprio",
@@ -62,7 +57,8 @@ movie_stars = [
     "Robert Downey Jr.",
     "Viola Davis",
     "Morgan Freeman",
-    "Jennifer Lawrence"] # movie_stars = list()
+    "Jennifer Lawrence"]
+
 movies = [    
     "The Shawshank Redemption",
     "The Godfather",
@@ -75,7 +71,8 @@ movies = [
     "Interstellar",
     "Gladiator",
     "Titanic",
-    "Avatar"] # movie = list()
+    "Avatar"]
+
 games = [    
     "The Legend of Zelda: Breath of the Wild",
     "The Witcher 3: Wild Hunt",
@@ -88,54 +85,49 @@ games = [
     "Hollow Knight",
     "DOOM (2016)",
     "Celeste",
-    "Final Fantasy VII"]  # games = list()
+    "Final Fantasy VII"]
 
-while True: 
+def main():
+    while True:
+        category_type = input("Please Enter category type e.g., S(tars), M(ovie), G(ames), E(nd) => ").strip().upper()
 
-    category_type = input("Please Enter category type e.g., S(tars), M(ovie), G(ames), E(nd) => ")
-
-    if category_type == 'E':
-        print("Thank you. You are now exiting the program ")
-        break 
-    else:
+        if category_type == 'E':
+            print("Thank you. You are now exiting the program.")
+            break
+        
         if category_type == 'S':
             list_type = movie_stars
+        elif category_type == 'M':
+            list_type = movies
+        elif category_type == 'G':
+            list_type = games
         else:
-            if category_type == 'M':
-                list_type = movies
-            else:
-                if category_type == 'G':
-                    list_type = games
-                else:
-                    print("Unknown input", category_type)
-                    continue
-                
-        while True:      
+            print("Unknown input:", category_type)
+            continue
+
+        while True:
             instruction_type = input("Please enter instruction type e.g., A(dd), D(elete), S(orting), sea(R)ch, P(revious menu) => ").strip().upper()
+
             if instruction_type == "P":
                 break
+            elif instruction_type == "A":
+                value = input("Please Enter Value: ")
+                list_type = add_value(list_type, value)
+            elif instruction_type == "D":
+                value = input("Please Enter Value: ")
+                list_type = delete_value(list_type, value)
+            elif instruction_type == "S":
+                list_type = sort_value(list_type)
+            elif instruction_type == "R":
+                value = input("Please enter value to search: ")
+                search_value(list_type, value)
             else:
-                if instruction_type == "A":
-                    value = input("Please Enter Value :")
-                    list_type = add_value(list_type, value )
-                else:
-                    if instruction_type == "D":
-                        value = input("Please Enter Value :")
-                        list_type = delete_value(list_type, value)
-                    else:
-                        if instruction_type == "S":
-                            value = input("Please Enter Value :")
-                            list_type = sort_value(list_type)
-                        else:
-                            if instruction_type == "R":
-                                value = input("Please enter value to search: ")
-                                list_type = search_value(list_type)
-                            else:
-                                print("invalid instruction")
-                                continue
+                print("Invalid instruction")
+                continue
 
+            print(list_type)
 
-            print(list_type) 
-
+if __name__ == '__main__':
+    main()
 
 # testing 
